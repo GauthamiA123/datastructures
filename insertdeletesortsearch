@@ -1,0 +1,174 @@
+#include<stdlib.h>
+#include<iostream>
+using namespace std;
+
+struct node {
+    int data;
+    struct node* next;
+};
+
+void insertAtBeginning(struct node** head_Ref, int new_Data)
+{
+    struct node* new_node = (struct node*)malloc(sizeof(struct node));
+    
+    new_node -> data = new_Data;
+    new_node -> next = (*head_Ref);
+    
+    (*head_Ref) = new_node;
+}
+
+void insertAtEnd(struct node** head_Ref, int new_Data)
+{
+    struct node* new_node = (struct node*)malloc(sizeof(struct node));
+    struct node* last = *head_Ref;
+    
+    new_node->data = new_Data;
+    new_node->next = NULL;
+    
+    if(*head_Ref == NULL) {
+        *head_Ref = new_node;
+        return;
+    }
+    while(last->next != NULL) last = last->next;
+    
+    last->next = new_node;
+    return;
+}
+
+
+void insertAtPosition(struct node** head_Ref,int new_Data,int pos)
+{
+    struct node *ptr= *head_Ref;
+    struct node *pre_ptr = ptr;
+    
+    struct node* new_node=(struct node*)malloc(sizeof(struct node));
+    new_node->data = new_Data;
+    new_node->next = NULL;
+    
+
+    int count = 0;
+    while(count!=pos){
+        pre_ptr=ptr;
+        ptr=ptr->next;
+        count++;
+    }
+    pre_ptr->next=new_node;
+    new_node->next = ptr;
+    return;
+}
+
+
+
+void deleteAtEnd(struct node **head_ref)
+{
+    struct node *ptr=*head_ref;
+    struct node *pre_ptr = ptr;
+    while(ptr->next !=NULL)
+    {
+    pre_ptr= ptr;
+    ptr=ptr->next;
+    }
+    pre_ptr->next = NULL;
+    free(ptr);
+}
+
+void deleteAtbegin(struct node **head_ref)
+{
+    struct node* ptr= *head_ref;
+    *head_ref = ptr->next;
+    ptr->next = NULL;
+    free(ptr);
+}
+
+
+void deleteAtPosition(struct node **head_ref, int pos)
+{
+    struct node *ptr = *head_ref;
+    struct node * pre_ptr = ptr;
+    int count=1;
+    while(count!=pos){
+        pre_ptr = ptr;
+        ptr = ptr->next;
+        count++;
+    }
+    pre_ptr->next = ptr->next;
+    ptr->next = NULL;
+    free(ptr);
+    return;
+}
+
+void search(struct node **head_ref, int element)
+{
+    struct node *ptr = *head_ref;
+    while(ptr!=NULL)
+    {
+      if(ptr->data == element)
+      {
+        cout<<"\nElement found\n";
+        return;
+      }
+     ptr = ptr->next;
+    }
+    cout<<"Element not found\n";
+    return;
+}
+
+
+void bubble_sort(struct node **head_ref)
+{
+    struct node *current = *head_ref;
+    struct node *index;
+    int temp;
+    while(current != NULL)
+    {
+        index = current->next;
+        while(index!=NULL)
+        {
+            if(current->data < index->data)
+            {
+                temp = current->data;
+                current->data = index->data;
+                index->data = temp;
+            }
+            index = index->next;
+        }
+        current = current->next;
+    }
+    return;
+}
+
+void printlist(struct node* node){
+    while(node != NULL)
+    {
+        cout<<node->data<<"->";
+        node = node->next;
+    }
+}
+
+int main(){
+   struct node *head=NULL;
+   insertAtBeginning(&head, 20);
+   insertAtEnd(&head, 300);
+   insertAtEnd(&head, 40);
+   insertAtEnd(&head, 50);
+   
+   
+   
+   cout<<"\nLinked list:";
+   printlist(head);
+   
+   insertAtPosition(&head,1,1);
+   cout<<"\ninsert at position:";
+   printlist(head);
+   
+   
+  search(&head, 1);
+  
+  bubble_sort(&head);
+  cout<<"\nLinked list (sort):";
+  printlist(head);
+
+
+   
+    return 0;
+}
