@@ -1,0 +1,64 @@
+#include<stdlib.h>
+#include<iostream>
+using namespace std;
+
+struct node {
+    int data;
+    struct node* next;
+};
+
+void push(struct node** head_Ref, int new_Data)
+{
+    struct node* new_node = (struct node*)malloc(sizeof(struct node));
+    
+    new_node -> data = new_Data;
+    new_node -> next = (*head_Ref);
+    
+    (*head_Ref) = new_node;
+}
+
+void pop(struct node **head_ref)
+{
+    struct node* ptr= *head_ref;
+    *head_ref = ptr->next;
+    ptr->next = NULL;
+    free(ptr);
+}
+
+void printlist(struct node* node){
+    while(node != NULL)
+    {
+        cout<<node->data<<"->";
+        node = node->next;
+    }
+}
+int main(){
+    struct node *head=NULL;
+    int ch,size,ele;
+    cout<<"1.push\n 2.pop\n 3.display\n 4.create\n";
+   
+    
+    do{
+         cin>>ch;
+        switch(ch)
+        {
+            case 1:cout<<"Enter the element";
+                    cin>>ele;
+                    push(&head,ele);
+                    break;
+            case 2:pop(&head);
+                    break;
+            case 3:printlist(head);
+                    break;
+            case 4: cout<<"Enter the size\n";
+                    cin>>size;
+                    cout<<"Enter the element";
+                    for(int i=0;i< size;i++){
+                        cin>>ele;
+                        push(&head,ele);
+                        
+                    }
+        }
+    }while(ch!=5);
+    return 0;
+}
