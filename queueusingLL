@@ -1,0 +1,75 @@
+#include<stdlib.h>
+#include<iostream>
+
+using namespace std;
+
+struct node {
+    int data;
+    struct node *next;
+};
+
+void insert(struct node **head, int data)
+{
+    struct node *new_node = (struct node *)malloc(sizeof(struct node));
+    new_node -> data = data;
+    new_node -> next = *head;
+    
+   *head = new_node;
+}
+
+void deleteatend(struct node **head)
+{
+    struct node *ptr = *head;
+    struct node *pre_ptr = ptr;
+    
+    while(ptr->next!=NULL)
+    {
+        pre_ptr = ptr;
+        ptr = ptr->next;
+    }
+    pre_ptr->next = NULL;
+    free(ptr);
+    return;
+}
+
+
+void printqueue(struct node* node){
+    while(node != NULL)
+    {
+        cout<<node->data<<"->";
+        node = node->next;
+    }
+    return;
+}
+
+int main()
+{
+     struct node *head=NULL;
+    int ch, ele, size;
+    cout<<"\n1.Insert\n2.Delete\n3.Display\n4.Creating stack\n5.Exit\t";
+    do
+    {
+        
+        cin>>ch;
+        switch(ch)
+        {
+            case 1: cout<<"Enter the element\n";
+                    cin>>ele;
+                    insert(&head, ele);
+                    break;
+            case 2: deleteatend(&head);
+                     break;
+            case 3: printqueue(head);
+                    break;
+            case 4: cout<<"Enter the size\n";
+                    cin>>size;
+                    cout<<"Enter the element\n";
+                    for (int i=0; i<size; i++)
+                    {
+                        cin>>ele;
+                        insert(&head, ele);
+                    }
+        }
+    }while(ch!=5);
+return 0;
+}
